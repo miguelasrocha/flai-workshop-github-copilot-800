@@ -26,6 +26,10 @@ SECRET_KEY = 'django-insecure-$&*44b*w^d&)e+wp14i^3be&s%sg7x#rh9c6#s$jkmk3n0&uvr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Proxy configuration for GitHub Codespaces
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 if os.environ.get('CODESPACE_NAME'):
     ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
