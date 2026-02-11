@@ -13,7 +13,10 @@ function App() {
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
           <div className="container-fluid">
-            <Link className="navbar-brand" to="/">OctoFit Tracker</Link>
+            <Link className="navbar-brand" to="/">
+              <span className="octofit-logo">💪</span>
+              OctoFit Tracker
+            </Link>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -42,8 +45,59 @@ function App() {
         <Routes>
           <Route path="/" element={
             <div className="container mt-4">
-              <h1>Welcome to OctoFit Tracker</h1>
-              <p className="lead">Track your fitness activities, join teams, and compete on the leaderboard!</p>
+              <div className="hero-section">
+                <h1>Welcome to OctoFit Tracker</h1>
+                <p className="lead">Track your fitness activities, join teams, and compete on the leaderboard!</p>
+              </div>
+              <div className="row">
+                <div className="col-md-4 mb-4">
+                  <div className="card text-center">
+                    <div className="card-body">
+                      <h5 className="card-title">👤 Users</h5>
+                      <p className="card-text">Manage user profiles and fitness levels</p>
+                      <Link to="/users" className="btn btn-primary">View Users</Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-4 mb-4">
+                  <div className="card text-center">
+                    <div className="card-body">
+                      <h5 className="card-title">🏃 Activities</h5>
+                      <p className="card-text">Track all logged fitness activities</p>
+                      <Link to="/activities" className="btn btn-primary">View Activities</Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-4 mb-4">
+                  <div className="card text-center">
+                    <div className="card-body">
+                      <h5 className="card-title">💪 Workouts</h5>
+                      <p className="card-text">Browse personalized workout plans</p>
+                      <Link to="/workouts" className="btn btn-primary">View Workouts</Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-6 mb-4">
+                  <div className="card text-center">
+                    <div className="card-body">
+                      <h5 className="card-title">👥 Teams</h5>
+                      <p className="card-text">Create and join fitness teams</p>
+                      <Link to="/teams" className="btn btn-primary">View Teams</Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6 mb-4">
+                  <div className="card text-center">
+                    <div className="card-body">
+                      <h5 className="card-title">🏆 Leaderboard</h5>
+                      <p className="card-text">Compete for the top spot</p>
+                      <Link to="/leaderboard" className="btn btn-primary">View Leaderboard</Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           } />
           <Route path="/users" element={<Users />} />

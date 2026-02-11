@@ -2,8 +2,10 @@ from djongo import models
 
 class User(models.Model):
     _id = models.ObjectIdField(primary_key=True)
-    name = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(unique=True)
+    full_name = models.CharField(max_length=255)
+    fitness_level = models.CharField(max_length=50, null=True, blank=True)
     team_id = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -11,7 +13,7 @@ class User(models.Model):
         db_table = 'users'
         
     def __str__(self):
-        return self.name
+        return self.username
 
 class Team(models.Model):
     _id = models.ObjectIdField(primary_key=True)

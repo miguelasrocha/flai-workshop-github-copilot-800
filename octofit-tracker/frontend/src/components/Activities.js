@@ -31,41 +31,76 @@ function Activities() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading activities...</p></div>;
-  if (error) return <div className="container mt-4"><p>Error: {error}</p></div>;
+  if (loading) {
+    return (
+      <div className="container mt-4">
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3 text-muted">Loading activities...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div className="container mt-4">
+        <div className="alert alert-danger" role="alert">
+          <h4 className="alert-heading">Error!</h4>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-4">
-      <h2>Activities</h2>
-      <div className="table-responsive">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Activity Type</th>
-              <th>Duration (min)</th>
-              <th>Calories</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {activities.length === 0 ? (
-              <tr>
-                <td colSpan="5" className="text-center">No activities found</td>
-              </tr>
-            ) : (
-              activities.map((activity, index) => (
-                <tr key={activity.id || index}>
-                  <td>{activity.user_name || activity.user || 'N/A'}</td>
-                  <td>{activity.activity_type || 'N/A'}</td>
-                  <td>{activity.duration || 0}</td>
-                  <td>{activity.calories_burned || 0}</td>
-                  <td>{activity.date ? new Date(activity.date).toLocaleDateString() : 'N/A'}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+      <div className="card">
+        <div className="card-header bg-primary text-white">
+          <h2 className="mb-0">🏃 Activities</h2>
+        </div>
+        <div className="card-body">
+          {activities.length === 0 ? (
+            <div className="alert alert-info" role="alert">
+              <h5 className="alert-heading">No Activities Found</h5>
+              <p className="mb-0">There are no activities to display yet.</p>
+            </div>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-hover table-striped align-middle">
+                <thead className="table-light">
+                  <tr>
+                    <th>User</th>
+                    <th>Activity Type</th>
+                    <th>Duration (min)</th>
+                    <th>Calories</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {activities.map((activity, index) => (
+                    <tr key={activity.id || index}>
+                      <td><strong>{activity.user_name || activity.user || 'N/A'}</strong></td>
+                      <td>
+                        <span className="badge bg-secondary">{activity.activity_type || 'N/A'}</span>
+                      </td>
+                      <td>{activity.duration || 0}</td>
+                      <td>
+                        <span className="badge bg-success">{activity.calories_burned || 0} cal</span>
+                      </td>
+                      <td>{activity.date ? new Date(activity.date).toLocaleDateString() : 'N/A'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+        <div className="card-footer text-muted">
+          Total Activities: <strong>{activities.length}</strong>
+        </div>
       </div>
     </div>
   );

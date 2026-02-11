@@ -31,39 +31,87 @@ function Leaderboard() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading leaderboard...</p></div>;
-  if (error) return <div className="container mt-4"><p>Error: {error}</p></div>;
+  if (loading) {
+    return (
+      <div className="container mt-4">
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3 text-muted">Loading leaderboard...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div className="container mt-4">
+        <div className="alert alert-danger" role="alert">
+          <h4 className="alert-heading">Error!</h4>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const getMedalEmoji = (rank) => {
+    if (rank === 1) return '🥇';
+    if (rank === 2) return '🥈';
+    if (rank === 3) return '🥉';
+    return rank;
+  };
 
   return (
     <div className="container mt-4">
-      <h2>Leaderboard</h2>
-      <div className="table-responsive">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>User</th>
-              <th>Total Points</th>
-              <th>Activities</th>
-            </tr>
-          </thead>
-          <tbody>
-            {leaderboard.length === 0 ? (
-              <tr>
-                <td colSpan="4" className="text-center">No leaderboard data found</td>
-              </tr>
-            ) : (
-              leaderboard.map((entry, index) => (
-                <tr key={entry.id || index}>
-                  <td>{index + 1}</td>
-                  <td>{entry.user_name || entry.user || 'N/A'}</td>
-                  <td>{entry.total_points || 0}</td>
-                  <td>{entry.activity_count || 0}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+      <div className="card">
+        <div className="card-header bg-warning text-dark">
+          <h2 className="mb-0">🏆 Leaderboard</h2>
+        </div>
+        <div className="card-body">
+          {leaderboard.length === 0 ? (
+            <div className="alert alert-info" role="alert">
+              <h5 className="alert-heading">No Leaderboard Data Found</h5>
+              <p className="mb-0">There is no leaderboard data to display yet.</p>
+            </div>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-hover align-middle">
+                <thead className="table-light">
+                  <tr>
+                    <th>Rank</th>
+                    <th>User</th>
+                    <th>Total Points</th>
+                    <th>Activities</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaderboard.map((entry, index) => {
+                    const rank = index + 1;
+                    const rowClass = rank <= 3 ? 'table-warning' : '';
+                    return (
+                      <tr key={entry.id || index} className={rowClass}>
+                        <td>
+                          <h4 className="mb-0">{getMedalEmoji(rank)}</h4>
+                        </td>
+                        <td><strong>{entry.user_name || entry.user || 'N/A'}</strong></td>
+                        <td>
+                          <span className="badge bg-primary fs-6">{entry.total_points || 0} pts</span>
+                        </td>
+                        <td>
+                          <span className="badge bg-info">{entry.activity_count || 0} activities</span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+        <div className="card-footer text-muted">
+          Total Competitors: <strong>{leaderboard.length}</strong>
+        </div>
       </div>
     </div>
   );

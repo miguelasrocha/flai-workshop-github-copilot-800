@@ -31,39 +31,74 @@ function Teams() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading teams...</p></div>;
-  if (error) return <div className="container mt-4"><p>Error: {error}</p></div>;
+  if (loading) {
+    return (
+      <div className="container mt-4">
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3 text-muted">Loading teams...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div className="container mt-4">
+        <div className="alert alert-danger" role="alert">
+          <h4 className="alert-heading">Error!</h4>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-4">
-      <h2>Teams</h2>
-      <div className="table-responsive">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Team Name</th>
-              <th>Description</th>
-              <th>Member Count</th>
-              <th>Created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {teams.length === 0 ? (
-              <tr>
-                <td colSpan="4" className="text-center">No teams found</td>
-              </tr>
-            ) : (
-              teams.map((team, index) => (
-                <tr key={team.id || index}>
-                  <td>{team.name || 'N/A'}</td>
-                  <td>{team.description || 'No description'}</td>
-                  <td>{team.member_count || team.members?.length || 0}</td>
-                  <td>{team.created_at ? new Date(team.created_at).toLocaleDateString() : 'N/A'}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+      <div className="card">
+        <div className="card-header bg-success text-white">
+          <h2 className="mb-0">👥 Teams</h2>
+        </div>
+        <div className="card-body">
+          {teams.length === 0 ? (
+            <div className="alert alert-info" role="alert">
+              <h5 className="alert-heading">No Teams Found</h5>
+              <p className="mb-0">There are no teams to display yet. Create one to get started!</p>
+            </div>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-hover table-striped align-middle">
+                <thead className="table-light">
+                  <tr>
+                    <th>Team Name</th>
+                    <th>Description</th>
+                    <th>Members</th>
+                    <th>Created</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {teams.map((team, index) => (
+                    <tr key={team.id || index}>
+                      <td><strong>{team.name || 'N/A'}</strong></td>
+                      <td>{team.description || 'No description'}</td>
+                      <td>
+                        <span className="badge bg-primary">
+                          {team.member_count || team.members?.length || 0} members
+                        </span>
+                      </td>
+                      <td>{team.created_at ? new Date(team.created_at).toLocaleDateString() : 'N/A'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+        <div className="card-footer text-muted">
+          Total Teams: <strong>{teams.length}</strong>
+        </div>
       </div>
     </div>
   );

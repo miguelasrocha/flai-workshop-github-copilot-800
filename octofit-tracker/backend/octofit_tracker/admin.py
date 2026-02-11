@@ -4,9 +4,9 @@ from .models import User, Team, Activity, Leaderboard, Workout
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'team_id', 'created_at')
-    search_fields = ('name', 'email')
-    list_filter = ('created_at',)
+    list_display = ('username', 'full_name', 'email', 'fitness_level', 'team_id', 'created_at')
+    search_fields = ('username', 'full_name', 'email')
+    list_filter = ('fitness_level', 'created_at')
     ordering = ('-created_at',)
 
 
